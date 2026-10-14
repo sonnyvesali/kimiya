@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Notice from "$lib/components/feedback/Notice.svelte";
   let {
     invitation,
     message,
@@ -40,9 +41,8 @@
           their own classes.
         </p>{/if}
     </div>{/if}
-  {#if message}<p role="alert" class="mt-6 text-sm text-destructive">
-      {message}
-    </p>{/if}<a href="/" class="mt-6 inline-block text-sm text-primary"
-    >Back to my classes</a
+  {#if message}<Notice tone="error" {message} class="mt-6" />{/if}<a
+    href="/"
+    class="mt-6 inline-block text-sm text-primary">Back to my classes</a
   >
 </section>

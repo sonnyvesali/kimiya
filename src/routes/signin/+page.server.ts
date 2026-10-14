@@ -1,7 +1,11 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { env } from "$env/dynamic/public";
+import { dev } from "$app/environment";
 import { safeNext } from "$lib/server/auth/form/redirect";
 import { parseSignin } from "$lib/server/auth/form/signin";
 import { postAuthDestination } from "$lib/server/auth/workflows/session";
+import { requestEmailLink } from "$lib/server/auth/workflows/request-email-link";
+import { AuthActionError } from "$lib/server/auth/types/auth-error";
 import type { PageServerLoad, Actions } from "./$types";
 export const load: PageServerLoad = async ({ locals, url }) => {
   const next = safeNext(url.searchParams.get("next"));
@@ -11,13 +15,25 @@ export const load: PageServerLoad = async ({ locals, url }) => {
     configured: !!locals.supabase,
     mode: url.searchParams.get("mode") === "signup" ? "signup" : "signin",
     authError: url.searchParams.has("error"),
+    localInbox: dev && isLocalSupabase(),
   };
 };
+function isLocalSupabase() {
+  try {
+    return ["localhost", "127.0.0.1", "[::1]"].includes(
+      new URL(env.PUBLIC_SUPABASE_URL || "").hostname,
+    );
+  } catch {
+    return false;
+  }
+}
 export const actions: Actions = {
   default: async ({ locals, request, url }) => {
     if (!locals.supabase)
       return fail(503, {
         message: "Set up Kimiya’s Supabase configuration to enable sign-in.",
+        sent: false,
+        suggestSignup: false,
       });
     let input;
     try {
@@ -25,26 +41,35 @@ export const actions: Actions = {
     } catch (err) {
       return fail(400, {
         message: err instanceof Error ? err.message : "Check your details.",
+        sent: false,
+        suggestSignup: false,
       });
     }
-    const next = safeNext(url.searchParams.get("next"));
-    const { error } = await locals.supabase.auth.signInWithOtp({
-      email: input.email,
-      options: {
-        shouldCreateUser: input.mode === "signup",
-        emailRedirectTo: `${url.origin}/auth/callback?next=${encodeURIComponent(next)}`,
-        data:
-          input.mode === "signup" ? { full_name: input.fullName } : undefined,
-      },
-    });
-    if (error)
-      return fail(400, {
-        message:
-          "We couldn’t send a sign-in link. Check your details, try signing up if you’re new, or try again shortly.",
+    try {
+      await requestEmailLink({
+        supabase: locals.supabase,
+        form: input,
+        origin: url.origin,
+        next: safeNext(url.searchParams.get("next")),
+        local: dev,
       });
+    } catch (err) {
+      if (err instanceof AuthActionError)
+        return fail(err.status, {
+          message: err.message,
+          sent: false,
+          suggestSignup: err.suggestSignup,
+          email: input.email,
+          fullName: input.fullName,
+        });
+      throw err;
+    }
     return {
       message: "Check your email for a secure sign-in link.",
       sent: true,
+      suggestSignup: false,
+      email: input.email,
+      fullName: input.fullName,
     };
   },
 };

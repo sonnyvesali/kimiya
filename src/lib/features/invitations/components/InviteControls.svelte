@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Notice from "$lib/components/feedback/Notice.svelte";
   import Icon from "$lib/components/icons/Icon.svelte";
   import { localExpiry, serializeExpiry } from "../form/expiry";
   import InviteCredentials from "./InviteCredentials.svelte";
@@ -10,6 +11,7 @@
     invite: { id: string; expiresAt: Date | string | null } | null;
     result: {
       message?: string;
+      tone?: "error" | "success";
       credentials?: { url: string; code: string } | null;
     } | null;
   } = $props();
@@ -61,9 +63,11 @@
       Regenerating or revoking disables the previous QR code, link, and class
       code. Saved invitation details are only shown when generated.
     </p>{/if}
-  {#if result?.message}<p role="status" class="mt-5 text-sm text-primary">
-      {result.message}
-    </p>{/if}
+  {#if result?.message}<Notice
+      tone={result.tone || "success"}
+      message={result.message}
+      class="mt-5"
+    />{/if}
   {#if result?.credentials}<InviteCredentials
       credentials={result.credentials}
     />{/if}

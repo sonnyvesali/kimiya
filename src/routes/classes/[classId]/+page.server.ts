@@ -25,13 +25,17 @@ export const actions: Actions = {
         operation !== "expiry" &&
         operation !== "revoke"
       )
-        return fail(400, { message: "Choose a valid invitation action." });
+        return fail(400, {
+          message: "Choose a valid invitation action.",
+          tone: "error" as const,
+        });
       const credentials = await manageInvite(requireProfile(locals), {
         classId: params.classId,
         operation,
         expiresAt: operation === "revoke" ? null : parseExpiry(form),
       });
       return {
+        tone: "success" as const,
         message:
           operation === "generate"
             ? "Invitation created. Save these details now; they are shown only once."
@@ -47,7 +51,10 @@ export const actions: Actions = {
       };
     } catch (err) {
       if (err instanceof ClassActionError)
-        return fail(err.status, { message: err.message });
+        return fail(err.status, {
+          message: err.message,
+          tone: "error" as const,
+        });
       throw err;
     }
   },

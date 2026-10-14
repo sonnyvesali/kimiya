@@ -71,6 +71,7 @@
       configured: true,
       mode: "signin",
       authError: false,
+      localInbox: false,
       profile: null,
     }}
     form={null}

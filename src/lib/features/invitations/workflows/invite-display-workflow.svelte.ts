@@ -1,11 +1,14 @@
 import { qrSvg } from "../form/qr-code";
 export function createInviteDisplayWorkflow() {
   let message = $state("");
+  let tone = $state<"success" | "error">("success");
   async function copy(value: string) {
     try {
       await navigator.clipboard.writeText(value);
       message = "Copied.";
+      tone = "success";
     } catch {
+      tone = "error";
       message =
         "Copy isn’t available here. Select and copy the invitation manually.";
     }
@@ -26,6 +29,9 @@ export function createInviteDisplayWorkflow() {
   return {
     copy,
     qr,
+    get tone() {
+      return tone;
+    },
     get message() {
       return message;
     },

@@ -1,4 +1,5 @@
-export function parseSignin(form: FormData) {
+import type { SigninForm } from "../types/signin";
+export function parseSignin(form: FormData): SigninForm {
   const mode = form.get("mode") === "signup" ? "signup" : "signin";
   const email = String(form.get("email") || "")
     .trim()

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Notice from "$lib/components/feedback/Notice.svelte";
   import type { PageProps } from "./$types";
   import { onMount } from "svelte";
   let { data, form }: PageProps = $props();
@@ -39,18 +40,40 @@
         Sign-in will be available once Kimiya’s Supabase connection is
         configured.
       </p>{/if}
-    {#if data.authError}<p role="alert" class="mt-6 text-sm text-destructive">
-        That sign-in link couldn’t be verified. Request a new one below.
-      </p>{/if}
-    {#if form?.message}<p role="status" class="mt-6 text-sm text-primary">
-        {form.message}
-      </p>{/if}
+    {#if data.authError}<Notice
+        tone="error"
+        title="Sign-in link expired or invalid"
+        message="That sign-in link couldn’t be verified. Request a new one below."
+        class="mt-6"
+      />{/if}
+    {#if form?.message}<Notice
+        tone={form.sent ? "success" : "error"}
+        title={form.sent
+          ? "Check your inbox"
+          : "Couldn’t send your sign-in link"}
+        message={form.message}
+        class="mt-6"
+      />
+      {#if form.suggestSignup}<a
+          class="button-secondary mt-3 w-full"
+          href={`/signin?mode=signup&next=${encodeURIComponent(data.next)}`}
+          >Create an account</a
+        >{/if}
+      {#if form.sent && data.localInbox}<a
+          href="http://127.0.0.1:54324"
+          target="_blank"
+          rel="noreferrer"
+          class="mt-3 inline-block text-sm text-primary"
+          >Open local email inbox ↗</a
+        >{/if}
+    {/if}
     <form method="POST" class="mt-8 space-y-5">
       <input type="hidden" name="mode" value={data.mode} />
       {#if data.mode === "signup"}<label class="block text-sm font-medium"
           >Full name<input
             class="mt-2"
             name="fullName"
+            value={form?.fullName || ""}
             autocomplete="name"
             maxlength="120"
             required
@@ -60,6 +83,7 @@
         >Email address<input
           class="mt-2"
           name="email"
+          value={form?.email || ""}
           type="email"
           autocomplete="email"
           placeholder="you@example.com"

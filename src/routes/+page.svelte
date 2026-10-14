@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Notice from "$lib/components/feedback/Notice.svelte";
   import ClassList from "$lib/features/classes/components/ClassList.svelte";
   import ClassHomeActions from "$lib/features/classes/components/ClassHomeActions.svelte";
   import type { PageProps } from "./$types";
@@ -13,9 +14,11 @@
     ? "Create a space. Bring your students together."
     : "All your learning spaces, in one place."}
 </p>
-{#if form?.message}<p role="alert" class="mt-4 text-sm text-destructive">
-    {form.message}
-  </p>{/if}
+{#if form?.message}<Notice
+    tone="error"
+    message={form.message}
+    class="mt-4"
+  />{/if}
 <ClassHomeActions role={data.profile!.role!} /><ClassList
   classes={data.classes}
 />

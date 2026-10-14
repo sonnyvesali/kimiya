@@ -22,9 +22,11 @@ bun run db:migrate
 bun run dev
 ```
 
-Open `http://localhost:5173`. Supabase config allows authentication callbacks on
-localhost and 127.0.0.1 at port 5173. If Supabase was already running before the
+Open `http://localhost:5174`. Supabase config allows authentication callbacks on
+localhost and 127.0.0.1 at ports 5173 and 5174. If Supabase was already running before the
 config was added or edited, restart it to pick up the auth redirect settings.
+Kimiya reserves port 5174 so Haykal can keep port 5173. The redirect allowlist
+follows Haykal’s local wildcard pattern, including callback query parameters.
 Read local sign-in emails in Mailpit at `http://127.0.0.1:54324`.
 
 The sign-in screen also renders without configured services and explains that
