@@ -1,0 +1,16 @@
+node_modules
+.svelte-kit
+build
+dist
+coverage
+.vitest-attachments
+playwright-report
+test-results
+.DS_Store
+.env
+.env.*
+!.env.example
+.vscode/
+vite.config.*.timestamp-*
+supabase/.temp/
+supabase/.branches/

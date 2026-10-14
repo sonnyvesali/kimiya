@@ -1,0 +1,11 @@
+.svelte-kit
+.vitest-attachments
+node_modules
+dist
+build
+coverage
+bun.lock
+playwright-report
+test-results
+
+src/lib/vendor/
