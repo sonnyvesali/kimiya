@@ -1,9 +1,10 @@
 <script lang="ts">
   import Notice from "$lib/components/feedback/Notice.svelte";
   import Icon from "$lib/components/icons/Icon.svelte";
-  import { localExpiry, serializeExpiry } from "../form/expiry";
+  import InviteExpirySettings from "./InviteExpirySettings.svelte";
+  import { createInviteExpiryWorkflow } from "../workflows/invite-expiry-workflow.svelte";
   import InviteCredentials from "./InviteCredentials.svelte";
-  import { onMount } from "svelte";
+  import { untrack } from "svelte";
   let {
     invite,
     result,
@@ -15,9 +16,10 @@
       credentials?: { url: string; code: string } | null;
     } | null;
   } = $props();
-  let expiry = $state("");
-  onMount(() => {
-    expiry = localExpiry(invite?.expiresAt || null);
+  const workflow = createInviteExpiryWorkflow(() => invite);
+  $effect(() => {
+    const current = invite;
+    untrack(() => workflow.resetForInvite(current));
   });
 </script>
 
@@ -34,30 +36,23 @@
       No active invitation.
     </p>{/if}
   <form method="POST" action="?/invite" class="mt-5 space-y-4">
-    <label class="block max-w-sm text-sm font-medium"
-      >Expiration (optional)<input
-        type="datetime-local"
-        class="mt-2"
-        bind:value={expiry}
-      /><span class="mt-2 block text-xs font-normal text-muted-foreground"
-        >Your local time. Leave blank for no expiration.</span
-      ></label
-    ><input type="hidden" name="expiresAt" value={serializeExpiry(expiry)} />
+    <input type="hidden" name="expiresAt" value={workflow.serialized} />
     <div class="flex flex-wrap gap-3">
-      <button name="operation" value="generate" class="button"
+      <button
+        name="operation"
+        value="generate"
+        class="button"
+        disabled={!workflow.valid}
         ><Icon name="qr-code" />{invite
           ? "Regenerate invitation"
           : "Generate invitation"}</button
       >{#if invite}<button
           name="operation"
-          value="expiry"
-          class="button-secondary">Save expiration</button
-        ><button
-          name="operation"
           value="revoke"
           class="button-secondary text-destructive">Revoke</button
         >{/if}
     </div>
+    <InviteExpirySettings {workflow} hasInvite={!!invite} />
   </form>
   {#if invite}<p class="mt-4 text-xs leading-5 text-muted-foreground">
       Regenerating or revoking disables the previous QR code, link, and class
