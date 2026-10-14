@@ -11,8 +11,9 @@ import {
 export function createInviteExpiryWorkflow(
   initialInvite: () => InviteExpirySource | null = () => null,
 ) {
-  let baseline = $state(expiryIso(initialInvite()?.expiresAt || null));
-  let preset = $state<ExpiryPreset>(baseline ? "custom" : "never");
+  const initialBaseline = expiryIso(initialInvite()?.expiresAt || null);
+  let baseline = $state(initialBaseline);
+  let preset = $state<ExpiryPreset>(initialBaseline ? "custom" : "never");
   let fixedDeadline = $state("");
   let touched = $state(false);
   let selectedDate = $state<DateValue>();
