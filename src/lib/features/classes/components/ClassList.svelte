@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   let { classes }: { classes: { id: string; name: string }[] } = $props();
 </script>
 
@@ -12,10 +13,10 @@
           class="flex items-center justify-between gap-4 px-6 py-5 hover:bg-muted"
           ><span class="flex items-center gap-4"
             ><span
-              class="flex size-10 items-center justify-center rounded-lg bg-accent font-medium text-primary"
+              class="flex size-10 items-center justify-center rounded-lg bg-muted font-medium text-foreground"
               >{record.name.slice(0, 1).toUpperCase()}</span
             ><span class="font-medium">{record.name}</span></span
-          ><span aria-hidden="true" class="text-muted-foreground">→</span></a
+          ><Icon name="arrow-right" class="text-muted-foreground" /></a
         >{/each}
     </div>
   {:else}<div class="surface px-6 py-14 text-center">

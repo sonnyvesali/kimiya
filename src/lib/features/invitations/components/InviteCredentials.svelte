@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   import { createInviteDisplayWorkflow } from "../workflows/invite-display-workflow.svelte";
   let { credentials }: { credentials: { url: string; code: string } } =
     $props();
@@ -15,7 +16,8 @@
       /><a
         href={qr.source}
         download="kimiya-class-invite.svg"
-        class="mt-3 inline-block text-sm text-primary">Download QR code</a
+        class="mt-3 inline-flex items-center gap-2 text-sm text-primary"
+        ><Icon name="download-simple" />Download QR code</a
       >{:else}<p class="text-sm text-muted-foreground">{qr.error}</p>{/if}
   </div>
   <div class="space-y-5">
@@ -24,7 +26,8 @@
     ><button
       type="button"
       class="button-secondary"
-      onclick={() => workflow.copy(credentials.url)}>Copy link</button
+      onclick={() => workflow.copy(credentials.url)}
+      ><Icon name="copy" />Copy link</button
     ><label class="block text-sm font-medium"
       >Class code<input
         readonly
@@ -34,7 +37,8 @@
     ><button
       type="button"
       class="button-secondary"
-      onclick={() => workflow.copy(credentials.code)}>Copy code</button
+      onclick={() => workflow.copy(credentials.code)}
+      ><Icon name="copy" />Copy code</button
     >
     <p role="status" class="text-sm text-primary">{workflow.message}</p>
   </div>

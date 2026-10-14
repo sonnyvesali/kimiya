@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   import InviteControls from "$lib/features/invitations/components/InviteControls.svelte";
   import ClassRoster from "$lib/features/classes/components/ClassRoster.svelte";
   import type { PageProps } from "./$types";
@@ -11,7 +12,9 @@
     content="no-referrer"
   /></svelte:head
 >
-<a href="/" class="text-sm text-muted-foreground">← My classes</a>
+<a href="/" class="inline-flex items-center gap-2 text-sm text-muted-foreground"
+  ><Icon name="arrow-left" />My classes</a
+>
 <p class="eyebrow mt-8">
   {data.owned ? "Your classroom" : "Your learning space"}
 </p>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   import { localExpiry, serializeExpiry } from "../form/expiry";
   import InviteCredentials from "./InviteCredentials.svelte";
   import { onMount } from "svelte";
@@ -42,7 +43,9 @@
     ><input type="hidden" name="expiresAt" value={serializeExpiry(expiry)} />
     <div class="flex flex-wrap gap-3">
       <button name="operation" value="generate" class="button"
-        >{invite ? "Regenerate invitation" : "Generate invitation"}</button
+        ><Icon name="qr-code" />{invite
+          ? "Regenerate invitation"
+          : "Generate invitation"}</button
       >{#if invite}<button
           name="operation"
           value="expiry"

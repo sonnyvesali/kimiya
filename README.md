@@ -2,7 +2,7 @@
 
 A minimal classroom app built with Svelte 5, SvelteKit, Supabase Auth, Postgres,
 Drizzle, and Tailwind CSS. Its visual identity combines spacious Catalyst-style
-layouts with restrained Linear-style navigation: warm neutrals, muted teal, and
+layouts with restrained Linear-style navigation: cool neutrals, a restrained indigo accent, and
 system-aware light/dark mode.
 
 ## Local setup
@@ -87,3 +87,8 @@ policies, and workflows.
 
 The vendored QR encoder is Project Nayuki’s MIT-licensed QR Code generator;
 its license is retained in `src/lib/vendor/qr-code-generator.ts`.
+
+Icons use the Regular weight of [Phosphor](https://phosphoricons.com/). Only the
+used SVG paths are bundled locally; the MIT license is retained in
+`src/lib/components/icons/LICENSE`. Add icons from the same family and weight
+to keep the interface consistent.

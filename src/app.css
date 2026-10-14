@@ -34,47 +34,47 @@
 }
 :root {
   color-scheme: light;
-  --background: #fafaf7;
+  --background: #ffffff;
   --card: #ffffff;
-  --sidebar: #f2f3ef;
-  --foreground: #242a28;
-  --primary: #146c60;
+  --sidebar: #f7f8fa;
+  --foreground: #202128;
+  --primary: #535fc8;
   --primary-foreground: #ffffff;
-  --muted: #eeefea;
-  --muted-foreground: #66716b;
-  --accent: #e3f0eb;
-  --border: #dde2da;
-  --destructive: #b93838;
+  --muted: #f1f2f4;
+  --muted-foreground: #646771;
+  --accent: #eeeff2;
+  --border: #e5e6ea;
+  --destructive: #c53645;
 }
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background: #171c1a;
-    --card: #1d2421;
-    --sidebar: #141916;
-    --foreground: #e8ede8;
-    --primary: #83cdb8;
-    --primary-foreground: #102820;
-    --muted: #252e29;
-    --muted-foreground: #a1ada5;
-    --accent: #253e34;
-    --border: #344039;
-    --destructive: #ff9999;
+    --background: #17181b;
+    --card: #1d1e22;
+    --sidebar: #121316;
+    --foreground: #edeef0;
+    --primary: #7d88ef;
+    --primary-foreground: #121321;
+    --muted: #25262b;
+    --muted-foreground: #9699a3;
+    --accent: #2a2b31;
+    --border: #303139;
+    --destructive: #f28b95;
   }
 }
 :root.dark {
   color-scheme: dark;
-  --background: #171c1a;
-  --card: #1d2421;
-  --sidebar: #141916;
-  --foreground: #e8ede8;
-  --primary: #83cdb8;
-  --primary-foreground: #102820;
-  --muted: #252e29;
-  --muted-foreground: #a1ada5;
-  --accent: #253e34;
-  --border: #344039;
-  --destructive: #ff9999;
+  --background: #17181b;
+  --card: #1d1e22;
+  --sidebar: #121316;
+  --foreground: #edeef0;
+  --primary: #7d88ef;
+  --primary-foreground: #121321;
+  --muted: #25262b;
+  --muted-foreground: #9699a3;
+  --accent: #2a2b31;
+  --border: #303139;
+  --destructive: #f28b95;
 }
 
 @layer base {
@@ -98,7 +98,7 @@
     cursor: pointer;
   }
   input {
-    @apply rounded-lg border bg-card px-3 py-2.5 text-sm;
+    @apply rounded-md border bg-card px-3 py-2.5 text-sm;
     width: 100%;
   }
   input[type="radio"] {
@@ -111,17 +111,23 @@
 }
 @layer components {
   .button {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground;
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground;
+  }
+  .button:hover:not(:disabled) {
+    filter: brightness(1.08);
   }
   .button:disabled {
     opacity: 0.5;
     cursor: wait;
   }
   .button-secondary {
-    @apply inline-flex items-center justify-center rounded-lg border bg-card px-4 py-2.5 text-sm font-medium;
+    @apply inline-flex items-center justify-center gap-2 rounded-md border bg-card px-4 py-2.5 text-sm font-medium;
+  }
+  .button-secondary:hover {
+    background: var(--muted);
   }
   .surface {
-    @apply rounded-xl border bg-card;
+    @apply rounded-lg border bg-card;
   }
   .eyebrow {
     @apply text-xs font-medium tracking-widest text-muted-foreground uppercase;

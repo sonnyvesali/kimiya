@@ -19,7 +19,7 @@
   <div class="w-full max-w-sm">
     <a href="/" class="mb-12 flex items-center gap-3"
       ><span
-        class="flex size-9 items-center justify-center rounded-lg bg-primary text-xl text-primary-foreground"
+        class="flex size-9 items-center justify-center rounded-md bg-foreground text-xl text-background"
         >k</span
       ><span class="text-xl font-semibold tracking-tight">kimiya</span></a
     >

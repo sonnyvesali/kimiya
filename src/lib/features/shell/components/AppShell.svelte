@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   import type { Snippet } from "svelte";
   let {
     profile,
@@ -13,7 +14,7 @@
   >
     <a href="/" class="flex items-center gap-3 px-6 py-7"
       ><span
-        class="flex size-8 items-center justify-center rounded-lg bg-primary text-lg text-primary-foreground"
+        class="flex size-8 items-center justify-center rounded-md bg-foreground text-lg text-background"
         >k</span
       ><span class="text-lg font-semibold tracking-tight">kimiya</span></a
     >
@@ -21,7 +22,7 @@
       <a
         href="/"
         class="flex items-center gap-3 rounded-lg bg-accent px-3 py-2.5 text-sm font-medium"
-        ><span aria-hidden="true">▦</span> My classes</a
+        ><Icon name="squares-four" class="text-muted-foreground" /> My classes</a
       >
     </nav>
     <div class="mt-auto hidden border-t px-6 py-5 md:block">
@@ -30,7 +31,10 @@
         {profile.role}
       </p>
       <form method="POST" action="/auth/signout">
-        <button class="mt-4 text-xs text-muted-foreground">Sign out</button>
+        <button
+          class="mt-4 flex items-center gap-2 text-xs text-muted-foreground"
+          ><Icon name="sign-out" />Sign out</button
+        >
       </form>
     </div>
   </aside>
@@ -41,7 +45,9 @@
       <span class="text-xs text-muted-foreground">A little space to learn.</span
       >
       <form method="POST" action="/auth/signout">
-        <button class="text-xs text-muted-foreground">Sign out</button>
+        <button class="flex items-center gap-2 text-xs text-muted-foreground"
+          ><Icon name="sign-out" />Sign out</button
+        >
       </form>
     </header>
     <main class="mx-auto max-w-5xl px-6 py-10 md:px-10 md:py-14">

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Icon from "$lib/components/icons/Icon.svelte";
   let { role }: { role: string } = $props();
 </script>
 
@@ -19,7 +20,7 @@
           required
           maxlength="120"
         /></label
-      ><button class="button">Create class</button>
+      ><button class="button"><Icon name="plus" />Create class</button>
     </form>
   {:else}<h2 class="font-medium">Join your classroom</h2>
     <p class="mt-2 text-sm text-muted-foreground">
@@ -40,6 +41,6 @@
           autocomplete="off"
           spellcheck="false"
         /></label
-      ><button class="button">Find class</button>
+      ><button class="button"><Icon name="arrow-right" />Find class</button>
     </form>{/if}
 </section>

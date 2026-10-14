@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Select as SelectPrimitive } from "bits-ui";
   import { cn, type WithoutChild } from "$lib/component-attributes";
-  import CheckIcon from "@lucide/svelte/icons/check";
+  import Icon from "$lib/components/icons/Icon.svelte";
 
   let {
     ref = $bindable(null),
@@ -34,7 +34,7 @@
   {#snippet children({ selected, highlighted })}
     <span class="absolute end-2 flex size-3.5 items-center justify-center">
       {#if selected}
-        <CheckIcon class="cn-select-item-indicator-icon" />
+        <Icon name="check" class="cn-select-item-indicator-icon" />
       {/if}
     </span>
     {#if childrenProp}
